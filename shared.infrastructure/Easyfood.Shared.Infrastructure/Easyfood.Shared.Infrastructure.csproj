@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\easyfood\domain\Easyfood.Domain.csproj" />
+    <ProjectReference Include="..\..\partners\application\Easyfood.Application.csproj" />
+    <ProjectReference Include="..\..\partners\domain\Easyfood.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

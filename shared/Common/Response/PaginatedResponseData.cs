@@ -10,12 +10,22 @@
 
         public int CurrentPage { get; private set; }
 
-        public PaginatedResponseData(T data, int totalItems, int totalPages, int currentPage)
+        public int PageSize => 2;
+
+        internal PaginatedResponseData(T data, int totalItems, int currentPage)
         {
             Data = data;
             TotalItems = totalItems;
-            TotalPages = totalPages;
+            TotalPages = (int)Math.Ceiling((decimal)(totalItems / PageSize));
             CurrentPage = currentPage;
+        }
+    }
+
+    public static class PaginatedResponseData
+    {
+        public static PaginatedResponseData<T> Response<T>(T data, int totalItems, int currentPage)
+        {
+            return new PaginatedResponseData<T>(data, totalItems, currentPage);
         }
     }
 }

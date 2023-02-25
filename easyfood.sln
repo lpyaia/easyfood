@@ -3,25 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "partners", "partners", "{03545E8C-133A-4029-B3C5-20AE7E5FB7F8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "payments", "payments", "{084EF6AB-819B-4452-B345-476E955ADF2D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "orders", "orders", "{622EA6B7-78AE-46DD-BAB5-3775F37A5D17}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "easyfood", "easyfood", "{03545E8C-133A-4029-B3C5-20AE7E5FB7F8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{22609A84-17AA-4BDE-BF8C-8E2B1793075C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easyfood.Partners.Application", "partners\application\Easyfood.Partners.Application.csproj", "{FBF1DEF8-A0C4-4D4E-8520-0780437C6E58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easyfood.Application", "easyfood\application\Easyfood.Application.csproj", "{FBF1DEF8-A0C4-4D4E-8520-0780437C6E58}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "containers", "containers", "{50ADCCC8-F15C-442A-9179-68DF7F59FB6E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easyfood.Partners.Api", "partners\containers\api\Easyfood.Partners.Api.csproj", "{42CCF928-F8DA-4EDA-A101-8D0ADBB35148}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easyfood.Api", "easyfood\containers\api\Easyfood.Api.csproj", "{42CCF928-F8DA-4EDA-A101-8D0ADBB35148}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easyfood.Partners.Domain", "partners\domain\Easyfood.Partners.Domain.csproj", "{3AA6F47D-BC5B-4326-95FA-50C78564D543}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easyfood.Domain", "easyfood\domain\Easyfood.Domain.csproj", "{3AA6F47D-BC5B-4326-95FA-50C78564D543}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easyfood.Partners.Infrastructure", "partners\infrastructure\Easyfood.Partners.Infrastructure.csproj", "{72017E9E-EBAD-40AC-9C08-F1A4F0F27965}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easyfood.Infrastructure", "easyfood\infrastructure\Easyfood.Infrastructure.csproj", "{72017E9E-EBAD-40AC-9C08-F1A4F0F27965}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easyfood.IoC", "partners\ioc\Easyfood.IoC.csproj", "{D8638AF6-D2A9-4209-B17D-5AC359C5D183}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easyfood.IoC", "easyfood\ioc\Easyfood.IoC.csproj", "{D8638AF6-D2A9-4209-B17D-5AC359C5D183}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Easyfood.Shared", "shared\Easyfood.Shared.csproj", "{1A5BDD11-5A0F-4B92-B058-EE66E607F457}"
 EndProject

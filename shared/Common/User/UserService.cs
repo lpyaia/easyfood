@@ -1,4 +1,4 @@
-﻿using Easyfood.Partners.Domain.ValueObjects;
+﻿using Easyfood.Domain.ValueObjects;
 
 namespace Easyfood.Shared.Common.User
 {
