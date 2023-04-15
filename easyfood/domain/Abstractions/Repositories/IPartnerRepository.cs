@@ -2,10 +2,10 @@
 
 namespace Easyfood.Domain.Abstractions.Repositories
 {
-    public interface IPartnerRepository
+    public interface IPartnerRepository : IRepository<Partner>
     {
-        Task<IEnumerable<Partner>> GetActiveParnersPaginatedAsync(int page, int pageSize);
+        Task<IEnumerable<Partner>> GetActiveParnersPaginatedAsync(int page, int pageSize, CancellationToken cancellationToken);
 
-        Task<int> GetActiveParnersCountAsync();
+        Task<int> GetActiveParnersCountAsync(CancellationToken cancellationToken);
     }
 }

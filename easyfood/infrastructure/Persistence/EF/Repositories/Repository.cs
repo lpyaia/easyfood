@@ -1,11 +1,12 @@
 ﻿using Easyfood.Domain.Abstractions;
 using Easyfood.Domain.Abstractions.Repositories;
+using Easyfood.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Easyfood.Infrastructure.Persistence.EF.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : class, IAggregateRoot
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity, IAggregateRoot
     {
         protected readonly EasyfoodDbContext _dbContext;
 
@@ -14,71 +15,116 @@ namespace Easyfood.Infrastructure.Persistence.EF.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<int> CountAsync()
+        public async Task<TEntity?> GetByIdAsync(Guid id,
+            CancellationToken cancellationToken,
+            params Expression<Func<TEntity, object>>[] includes)
         {
-            return await _dbContext.Set<T>()
-                                   .CountAsync();
+            var query = _dbContext.Set<TEntity>().AsQueryable();
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include.ConvertExpressionToEfIncludeString());
+            }
+
+            return await query.FirstOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
         }
 
-        protected async Task<int> CountAsync(Expression<Func<T, bool>> expression)
+        public async Task<IEnumerable<TEntity>> GetListByIdAsync(List<Guid> Ids,
+            CancellationToken cancellationToken,
+            params Expression<Func<TEntity, object>>[] includes)
         {
-            return await _dbContext.Set<T>()
-                                   .Where(expression)
-                                   .CountAsync();
+            var query = _dbContext.Set<TEntity>()
+                                  .Where(x => Ids.Contains(x.Id));
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include.ConvertExpressionToEfIncludeString());
+            }
+
+            return await query.ToListAsync(cancellationToken);
         }
 
-        public void Delete(T entity)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken)
         {
-            _dbContext.Set<T>()
-                      .Remove(entity);
+            return await _dbContext.Set<TEntity>().ToListAsync(cancellationToken);
         }
 
-        protected async Task<T?> FindAsync(Expression<Func<T, bool>> expression)
+        public void Insert(params TEntity[] entities)
         {
-            return await _dbContext.Set<T>()
-                                   .FirstOrDefaultAsync(expression);
+            foreach (var entity in entities)
+                _dbContext.Add(entity);
         }
 
-        public async Task InsertAsync(T entity)
+        public void Update(params TEntity[] entities)
         {
-            await _dbContext.Set<T>()
-                            .AddAsync(entity);
+            foreach (var entity in entities)
+                _dbContext.Update(entity);
         }
 
-        protected async Task<IEnumerable<T>> SelectAsync(Expression<Func<T, bool>> expression)
+        public virtual void InsertOrUpdate(params TEntity[] entities)
         {
-            return await _dbContext.Set<T>()
-                                   .Where(expression)
-                                   .ToListAsync();
+            foreach (var entity in entities)
+            {
+                if (_dbContext.Entry(entity).State == EntityState.Added ||
+                    _dbContext.Entry(entity).State == EntityState.Detached)
+                    _dbContext.Add(entity);
+                else if (_dbContext.Entry(entity).State == EntityState.Modified)
+                    _dbContext.Update(entity);
+            }
         }
 
-        public async Task<IEnumerable<T>> SelectAsync()
+        public virtual void Remove(Guid id)
         {
-            return await _dbContext.Set<T>()
-                                   .ToListAsync();
+            var entity = _dbContext.Set<TEntity>()
+                                   .Find(id);
+
+            if (entity != null)
+            {
+                entity.DeletedAt = DateTime.UtcNow;
+            }
         }
 
-        protected async Task<IEnumerable<T>> SelectPaginatedAsync(Expression<Func<T, bool>> expression, int page, int pageSize)
+        public async Task<IEnumerable<TEntity>> GetPaginatedAsync(int page, int pageSize, CancellationToken cancellationToken)
         {
-            return await _dbContext.Set<T>()
-                                   .Where(expression)
+            return await _dbContext.Set<TEntity>()
+                                   .OrderByDescending(x => x.CreatedAt)
                                    .Skip(page * pageSize)
                                    .Take(pageSize)
-                                   .ToListAsync();
+                                   .AsNoTracking()
+                                   .ToListAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<T>> SelectPaginatedAsync(int page, int pageSize)
+        protected async Task<IEnumerable<TEntity>> GetPaginatedAsync(int page,
+            int pageSize,
+            Expression<Func<TEntity, bool>> predicate,
+            CancellationToken cancellationToken,
+            params Expression<Func<TEntity, object>>[] includes)
         {
-            return await _dbContext.Set<T>()
-                                   .Skip(page * pageSize)
-                                   .Take(pageSize)
-                                   .ToListAsync();
+            var query = _dbContext.Set<TEntity>()
+                                   .Where(predicate);
+
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return await query.OrderByDescending(x => x.CreatedAt)
+                              .Skip(page * pageSize)
+                              .Take(pageSize)
+                              .AsNoTracking()
+                              .ToListAsync(cancellationToken);
         }
 
-        public async Task<T?> FindById(Guid id)
+        public async Task<int> CountAsync(CancellationToken cancellationToken)
         {
-            return await _dbContext.Set<T>()
-                                   .FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbContext.Set<TEntity>().CountAsync(cancellationToken);
+        }
+
+        protected async Task<int> CountAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken)
+        {
+            return await _dbContext.Set<TEntity>()
+                                   .Where(predicate)
+                                   .CountAsync(cancellationToken);
         }
     }
 }

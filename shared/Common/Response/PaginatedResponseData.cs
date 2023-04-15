@@ -1,4 +1,6 @@
-﻿namespace Easyfood.Shared.Common.Response
+﻿using Easyfood.Shared.Common.Request;
+
+namespace Easyfood.Shared.Common.Response
 {
     public class PaginatedResponseData<T>
     {
@@ -10,7 +12,7 @@
 
         public int CurrentPage { get; private set; }
 
-        public int PageSize => 2;
+        public int PageSize => PaginationRequest.PageSize;
 
         internal PaginatedResponseData(T data, int totalItems, int currentPage)
         {

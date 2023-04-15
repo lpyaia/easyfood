@@ -240,6 +240,20 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
 
             #endregion Partner 6
 
+            #region Customer1
+
+            var customer1 = Customer.CreateCustomer(
+                new Guid("483692e9-2af6-4fb9-9af6-3d562cdde43e"),
+                "John",
+                "Doe",
+                "john.doe@yahoo.com",
+                "john.doe",
+                new DateTime(1990, 01, 23));
+
+            context.Set<Customer>().Add(customer1);
+
+            #endregion Customer1
+
             await context.SaveChangesAsync();
         }
     }

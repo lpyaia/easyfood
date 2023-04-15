@@ -1,4 +1,5 @@
-﻿using Easyfood.Infrastructure.Persistence.EF;
+﻿using Easyfood.Application.Abstractions.Persistence;
+using Easyfood.Infrastructure.Persistence.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,10 +19,12 @@ namespace Easyfood.Infrastructure.IoC
             {
                 services.AddDbContext<EasyfoodDbContext>(options =>
                     options.UseSqlServer(
-                        configuration!.GetConnectionString("Default"),
+                        configuration.GetConnectionString("Default")!,
                         builder => builder.MigrationsAssembly(typeof(EasyfoodDbContext).Assembly.FullName)
                     ));
             }
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
 }

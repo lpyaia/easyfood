@@ -1,10 +1,8 @@
 ﻿namespace Easyfood.Identity.Models;
 
-public record UserRegisterDto
-{
-    public string UserName { get; set; } = string.Empty;
-
-    public string Email { get; set; } = string.Empty;
-
-    public string Password { get; set; } = string.Empty;
-}
+public record UserRegisterDto(string UserName,
+    string Email,
+    string Password,
+    string FirstName,
+    string LastName,
+    DateTime BirthDate);

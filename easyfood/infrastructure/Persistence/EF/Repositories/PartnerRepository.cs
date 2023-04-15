@@ -9,14 +9,14 @@ namespace Easyfood.Infrastructure.Persistence.EF.Repositories
         {
         }
 
-        public async Task<int> GetActiveParnersCountAsync()
+        public async Task<int> GetActiveParnersCountAsync(CancellationToken cancellationToken)
         {
-            return await CountAsync(x => x.IsActive);
+            return await CountAsync(x => x.IsActive, cancellationToken);
         }
 
-        public async Task<IEnumerable<Partner>> GetActiveParnersPaginatedAsync(int page, int pageSize)
+        public async Task<IEnumerable<Partner>> GetActiveParnersPaginatedAsync(int page, int pageSize, CancellationToken cancellationToken)
         {
-            return await SelectPaginatedAsync(x => x.IsActive, page, pageSize);
+            return await GetPaginatedAsync(page, pageSize, x => x.IsActive, cancellationToken);
         }
     }
 }

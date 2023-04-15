@@ -1,4 +1,5 @@
 using Easyfood.Identity.Data;
+using Easyfood.Identity.Interfaces;
 using Easyfood.Identity.Models;
 using Easyfood.Shared.Authorization.Roles;
 using Easyfood.Shared.Common.Response;
@@ -11,11 +12,18 @@ using MiniValidation;
 using NetDevPack.Identity.Interfaces;
 using NetDevPack.Identity.Jwt;
 using NetDevPack.Identity.Jwt.Model;
+using Refit;
 using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
 #region Configure Services
+
+builder.Services
+       .AddRefitClient<IEasyfoodApi>()
+       .ConfigureHttpClient(c =>
+            c.BaseAddress = new Uri(builder.Configuration.GetValue<string>("EasyfoodApi")!)
+        );
 
 builder.Services.AddCors(options =>
 {
@@ -109,11 +117,13 @@ app.Run();
 static void MapActions(WebApplication app)
 {
     app.MapPost("/api/register", [AllowAnonymous] async (
-    SignInManager<IdentityUser> signInManager,
-    UserManager<IdentityUser> userManager,
-    IOptions<AppJwtSettings> appJwtSettings,
-    IJwtBuilder builder,
-    UserRegisterDto registerUser) =>
+        IConfiguration configuration,
+        IEasyfoodApi easyfoodApi,
+        SignInManager<IdentityUser> signInManager,
+        UserManager<IdentityUser> userManager,
+        IOptions<AppJwtSettings> appJwtSettings,
+        IJwtBuilder builder,
+        UserRegisterDto registerUser) =>
     {
         if (registerUser == null)
             return Results.BadRequest(new ErrorResponse("Invalid user", "Invalid user.", "Invalid user.", "/api/register", ""));
@@ -155,6 +165,16 @@ static void MapActions(WebApplication app)
                                     .BuildUserResponse();
 
         var response = new ResponseData<UserResponse>(jwt);
+
+        var apiKey = configuration.GetValue<string>("EasyfoodApiKey")!;
+
+        await easyfoodApi.CreateUser(new CreateNewCustomerDto(new Guid(user.Id),
+            registerUser.UserName,
+            registerUser.Email,
+            registerUser.FirstName,
+            registerUser.LastName,
+            registerUser.BirthDate),
+            apiKey);
 
         return Results.Ok(response);
     })

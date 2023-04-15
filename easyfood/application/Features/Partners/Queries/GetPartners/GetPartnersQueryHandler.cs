@@ -27,8 +27,8 @@ namespace Easyfood.Application.Features.Partners.Queries.GetPartners
 
         public async Task<PaginatedResponseData<PartnerDto[]>> Handle(GetPartnersQuery request, CancellationToken cancellationToken)
         {
-            var partners = await _repository.GetActiveParnersPaginatedAsync(request.Page, PaginationRequest.PageSize);
-            var count = await _repository.GetActiveParnersCountAsync();
+            var partners = await _repository.GetActiveParnersPaginatedAsync(request.Page, PaginationRequest.PageSize, cancellationToken);
+            var count = await _repository.GetActiveParnersCountAsync(cancellationToken);
 
             IEnumerable<Task<PartnerDto>> merchantsDtoTasks = partners.Select(async (partner) =>
             {

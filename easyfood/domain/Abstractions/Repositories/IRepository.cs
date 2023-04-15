@@ -2,18 +2,28 @@
 
 namespace Easyfood.Domain.Abstractions.Repositories
 {
-    public interface IRepository<T> where T : IAggregateRoot
+    public interface IRepository<TEntity> where TEntity : class, IAggregateRoot
     {
-        Task InsertAsync(T entity);
+        Task<TEntity?> GetByIdAsync(Guid id,
+            CancellationToken cancellationToken,
+            params Expression<Func<TEntity, object>>[] includes);
 
-        void Delete(T entity);
+        Task<IEnumerable<TEntity>> GetListByIdAsync(List<Guid> Ids,
+            CancellationToken cancellationToken,
+            params Expression<Func<TEntity, object>>[] includes);
 
-        Task<int> CountAsync();
+        Task<IEnumerable<TEntity>> GetAllAsync(CancellationToken cancellationToken);
 
-        Task<T?> FindById(Guid id);
+        Task<IEnumerable<TEntity>> GetPaginatedAsync(int page, int pageSize, CancellationToken cancellationToken);
 
-        Task<IEnumerable<T>> SelectAsync();
+        void Insert(params TEntity[] entities);
 
-        Task<IEnumerable<T>> SelectPaginatedAsync(int page, int pageSize);
+        void Update(params TEntity[] entities);
+
+        void InsertOrUpdate(params TEntity[] entities);
+
+        void Remove(Guid id);
+
+        Task<int> CountAsync(CancellationToken cancellationToken);
     }
 }

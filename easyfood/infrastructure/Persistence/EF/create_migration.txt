@@ -1,0 +1,3 @@
+Add-Migration Initial -Output Persistence\EF\Migrations -Context EasyfoodDbContext -StartupProject Easyfood.Api -Project Easyfood.Infrastructure
+
+Update-Database -Context EasyfoodDbContext -StartupProject Easyfood.Api -Project Easyfood.Infrastructure
