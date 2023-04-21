@@ -33,7 +33,7 @@ namespace Easyfood.Application.Features.Customers.Commands.CreateNewCustomer
 
         public async Task<Unit> Handle(CreateNewCustomerCommand request, CancellationToken cancellationToken)
         {
-            var customer = Customer.CreateCustomer(request.UserId,
+            var customer = new Customer(request.UserId,
                 request.FirstName,
                 request.LastName,
                 request.Email,

@@ -16,7 +16,7 @@ namespace Easyfood.Domain.Entities
 
         public bool IsActive { get; set; }
 
-        public decimal Score { get; set; }
+        public Score Score { get; set; }
 
         public List<Tag> Tags { get; private set; }
 
@@ -57,7 +57,7 @@ namespace Easyfood.Domain.Entities
             Tags = new List<Tag>();
             Reviews = new List<Review>();
             OwnerId = ownerId;
-            Score = score;
+            Score = Score.From(score);
             IsActive = true;
         }
 

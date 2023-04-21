@@ -15,8 +15,7 @@
         public Location Location { get; private set; }
 
         private Address()
-        {
-        }
+        { }
 
         public Address
         (

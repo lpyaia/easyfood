@@ -1,4 +1,4 @@
-﻿using Easyfood.Domain.Exceptions;
+﻿using Easyfood.Domain.ValueObjects;
 
 namespace Easyfood.Domain.Entities
 {
@@ -10,23 +10,26 @@ namespace Easyfood.Domain.Entities
 
         public string Opinion { get; private set; }
 
-        public decimal Rating { get; private set; }
+        public Score Rating { get; private set; }
 
-        public string UserName { get; private set; }
+        public Guid CustomerId { get; private set; }
+
+        public Customer Customer { get; private set; } = default!;
 
         private Review()
-        { }
-
-        public Review(Guid partnerId, string opinion, decimal rating, string userName)
         {
-            if (rating > 5 || rating < 0)
-                throw new DomainException($"Rating value is invalid: {rating}.");
+        }
 
+        public Review(Guid partnerId,
+            string opinion,
+            decimal rating,
+            Guid customerId)
+        {
             PartnerId = partnerId;
             Opinion = opinion;
-            Rating = rating;
+            Rating = Score.From(rating);
             CreatedAt = DateTime.UtcNow;
-            UserName = userName;
+            CustomerId = customerId;
         }
     }
 }

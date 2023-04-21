@@ -1,10 +1,12 @@
-﻿namespace Easyfood.Domain.Entities
+﻿using Easyfood.Domain.ValueObjects;
+
+namespace Easyfood.Domain.Entities
 {
     public class Owner : BaseEntity
     {
-        public string FirstName { get; private set; }
+        public Name FirstName { get; private set; }
 
-        public string LastName { get; private set; }
+        public Name LastName { get; private set; }
 
         public Guid UserId { get; private set; }
 
@@ -16,8 +18,8 @@
 
         public Owner(string firstName, string lastName, Guid userId)
         {
-            FirstName = firstName;
-            LastName = lastName;
+            FirstName = Name.From(firstName);
+            LastName = Name.From(lastName);
             UserId = userId;
             Partners = new List<Partner>();
         }

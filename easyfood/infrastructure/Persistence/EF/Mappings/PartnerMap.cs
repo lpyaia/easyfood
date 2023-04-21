@@ -58,6 +58,14 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
                     locationNav.Property(l => l.Longitude).HasColumnName("Longitude").HasPrecision(18, 2);
                 });
             });
+
+            builder.OwnsOne(x => x.Score, x =>
+            {
+                x.Property(y => y.Value)
+                 .HasColumnName("Score")
+                 .HasPrecision(18, 2)
+                 .IsRequired();
+            });
         }
     }
 }

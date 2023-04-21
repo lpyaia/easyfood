@@ -17,11 +17,17 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
             builder.Property(r => r.Opinion)
                    .HasMaxLength(250);
 
-            builder.Property(r => r.UserName)
-                   .HasMaxLength(100);
+            builder.HasOne(r => r.Customer)
+                   .WithMany(c => c.Reviews)
+                   .HasForeignKey(r => r.CustomerId);
 
-            builder.Property(r => r.Rating)
-                   .HasPrecision(18, 2);
+            builder.OwnsOne(x => x.Rating, x =>
+            {
+                x.Property(y => y.Value)
+                 .HasColumnName("Rating")
+                 .HasPrecision(18, 2)
+                 .IsRequired();
+            });
         }
     }
 }

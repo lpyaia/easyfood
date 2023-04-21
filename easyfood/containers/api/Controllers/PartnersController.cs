@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Easyfood.Api.Controllers
 {
     [Route("api/partners")]
-    [JwtAuthorization()]
+    //[JwtAuthorization()]
     [ApiController]
     public class PartnersController : ControllerBase
     {

@@ -11,6 +11,20 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
             if (context.Set<Partner>().Any())
                 return;
 
+            #region Customers
+
+            var customer1 = new Customer(
+                new Guid("483692e9-2af6-4fb9-9af6-3d562cdde43e"),
+                "John",
+                "Doe",
+                "john.doe@yahoo.com",
+                "john.doe",
+                new DateTime(1990, 01, 23));
+
+            context.Set<Customer>().Add(customer1);
+
+            #endregion Customers
+
             #region Partner 1
 
             var owner1 = new Owner("Lucas", "Pyaia", Guid.NewGuid());
@@ -36,10 +50,10 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
 
             partner1.RegisterTag(Tag.Restaurant);
 
-            var reviewMerchant11 = new Review(partner1.Id, "Restaurante muito bom.", 5m, "João");
-            var reviewMerchant12 = new Review(partner1.Id, "Restaurante muito ruim.", 1m, "Maria");
-            var reviewMerchant13 = new Review(partner1.Id, "Restaurante muito razoável.", 2.5m, "José");
-            var reviewMerchant14 = new Review(partner1.Id, "Restaurante muito bom.", 4.5m, "Augusto");
+            var reviewMerchant11 = new Review(partner1.Id, "Restaurante muito bom.", 5m, customer1.Id);
+            var reviewMerchant12 = new Review(partner1.Id, "Restaurante muito ruim.", 1m, customer1.Id);
+            var reviewMerchant13 = new Review(partner1.Id, "Restaurante muito razoável.", 2.5m, customer1.Id);
+            var reviewMerchant14 = new Review(partner1.Id, "Restaurante muito bom.", 4.5m, customer1.Id);
 
             context.Set<Owner>().Add(owner1);
             context.Set<Menu>().Add(menu1);
@@ -79,10 +93,10 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
             partner2.RegisterTag(Tag.Japanese);
             partner2.RegisterTag(Tag.Chinese);
 
-            var reviewMerchant21 = new Review(partner2.Id, "Restaurante muito legal.", 3m, "Gustavo");
-            var reviewMerchant22 = new Review(partner2.Id, "Restaurante lamentável.", 1m, "Maria");
-            var reviewMerchant23 = new Review(partner2.Id, "Restaurante muito razoável.", 2.5m, "José");
-            var reviewMerchant24 = new Review(partner2.Id, "Restaurante muito bom.", 4.5m, "Augusto");
+            var reviewMerchant21 = new Review(partner2.Id, "Restaurante muito legal.", 3m, customer1.Id);
+            var reviewMerchant22 = new Review(partner2.Id, "Restaurante lamentável.", 1m, customer1.Id);
+            var reviewMerchant23 = new Review(partner2.Id, "Restaurante muito razoável.", 2.5m, customer1.Id);
+            var reviewMerchant24 = new Review(partner2.Id, "Restaurante muito bom.", 4.5m, customer1.Id);
 
             context.Set<Owner>().Add(owner2);
             context.Set<Menu>().Add(menu2);
@@ -121,9 +135,9 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
             partner3.RegisterTag(Tag.Restaurant);
             partner3.RegisterTag(Tag.Pizza);
 
-            var reviewMerchant31 = new Review(partner3.Id, "Pizzaria incrível.", 5m, "Gina");
-            var reviewMerchant32 = new Review(partner3.Id, "Lamentável.", 1m, "Maria");
-            var reviewMerchant33 = new Review(partner3.Id, "Show de horrores.", 2.5m, "José");
+            var reviewMerchant31 = new Review(partner3.Id, "Pizzaria incrível.", 5m, customer1.Id);
+            var reviewMerchant32 = new Review(partner3.Id, "Lamentável.", 1m, customer1.Id);
+            var reviewMerchant33 = new Review(partner3.Id, "Show de horrores.", 2.5m, customer1.Id);
 
             context.Set<Owner>().Add(owner3);
             context.Set<Menu>().Add(menu3);
@@ -191,7 +205,7 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
 
             partner5.RegisterTag(Tag.Market);
 
-            var reviewMerchant51 = new Review(partner5.Id, "Tudo caro.", 5m, "Joana");
+            var reviewMerchant51 = new Review(partner5.Id, "Tudo caro.", 5m, customer1.Id);
 
             context.Set<Owner>().Add(owner5);
             context.Set<Menu>().Add(menu5);
@@ -224,8 +238,8 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
                 5.0m
             );
 
-            var reviewMerchant61 = new Review(partner3.Id, "Incrível.", 5m, "Gi");
-            var reviewMerchant62 = new Review(partner3.Id, "Lamentável.", 1m, "Maria");
+            var reviewMerchant61 = new Review(partner3.Id, "Incrível.", 5m, customer1.Id);
+            var reviewMerchant62 = new Review(partner3.Id, "Lamentável.", 1m, customer1.Id);
 
             partner6.RegisterTag(Tag.Italian);
             partner6.RegisterTag(Tag.Restaurant);
@@ -239,20 +253,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
             );
 
             #endregion Partner 6
-
-            #region Customer1
-
-            var customer1 = Customer.CreateCustomer(
-                new Guid("483692e9-2af6-4fb9-9af6-3d562cdde43e"),
-                "John",
-                "Doe",
-                "john.doe@yahoo.com",
-                "john.doe",
-                new DateTime(1990, 01, 23));
-
-            context.Set<Customer>().Add(customer1);
-
-            #endregion Customer1
 
             await context.SaveChangesAsync();
         }

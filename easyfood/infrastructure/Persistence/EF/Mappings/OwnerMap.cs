@@ -1,4 +1,5 @@
 ﻿using Easyfood.Domain.Entities;
+using Easyfood.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,11 +11,21 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
         {
             builder.ToTable("Owner");
 
-            builder.Property(o => o.FirstName)
-                   .HasMaxLength(50);
+            builder.OwnsOne(x => x.FirstName, x =>
+            {
+                x.Property(y => y.Value)
+                 .HasColumnName("FirstName")
+                 .HasMaxLength(Name.MAX_LENGTH)
+                 .IsRequired();
+            });
 
-            builder.Property(o => o.LastName)
-                   .HasMaxLength(50);
+            builder.OwnsOne(x => x.LastName, x =>
+            {
+                x.Property(y => y.Value)
+                 .HasColumnName("LastName")
+                 .HasMaxLength(Name.MAX_LENGTH)
+                 .IsRequired();
+            });
         }
     }
 }

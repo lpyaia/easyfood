@@ -10,7 +10,7 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
         {
             builder.ToTable("Item");
 
-            builder.Property(mi => mi.Name)
+            builder.Property(mi => mi.ItemName)
                    .HasMaxLength(50);
 
             builder.Property(mi => mi.Description)

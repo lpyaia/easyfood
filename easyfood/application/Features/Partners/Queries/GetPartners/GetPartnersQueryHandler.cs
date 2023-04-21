@@ -40,7 +40,7 @@ namespace Easyfood.Application.Features.Partners.Queries.GetPartners
                     partner.CompanyCategory.ToString(),
                     partner.CompanyLogo,
                     merchantDelivery,
-                    partner.Score);
+                    partner.Score.Value);
             });
 
             PartnerDto[] merchantsDto = await Task.WhenAll(merchantsDtoTasks);
