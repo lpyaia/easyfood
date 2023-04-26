@@ -22,5 +22,9 @@
             yield return Latitude;
             yield return Longitude;
         }
+
+        protected override void Validate()
+        {
+        }
     }
 }

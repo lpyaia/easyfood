@@ -27,8 +27,7 @@ namespace Easyfood.Domain.Entities
         {
             PartnerId = partnerId;
             Opinion = opinion;
-            Rating = Score.From(rating);
-            CreatedAt = DateTime.UtcNow;
+            Rating = new Score(rating);
             CustomerId = customerId;
         }
     }

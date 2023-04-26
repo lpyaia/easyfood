@@ -11,6 +11,8 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
         {
             builder.ToTable("Owner");
 
+            builder.Property(x => x.Id).ValueGeneratedNever();
+
             builder.OwnsOne(x => x.FirstName, x =>
             {
                 x.Property(y => y.Value)

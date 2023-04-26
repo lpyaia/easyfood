@@ -9,6 +9,8 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
     {
         public void Configure(EntityTypeBuilder<Customer> builder)
         {
+            builder.Property(x => x.Id).ValueGeneratedNever();
+
             builder.OwnsOne(x => x.FirstName, x =>
             {
                 x.Property(y => y.Value)

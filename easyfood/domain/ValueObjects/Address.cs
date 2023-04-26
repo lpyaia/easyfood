@@ -44,5 +44,9 @@
             yield return ZipCode;
             yield return Country;
         }
+
+        protected override void Validate()
+        {
+        }
     }
 }

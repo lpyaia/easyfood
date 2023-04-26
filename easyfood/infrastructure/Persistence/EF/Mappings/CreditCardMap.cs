@@ -11,6 +11,8 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
         {
             builder.ToTable("CreditCard");
 
+            builder.Property(x => x.Id).ValueGeneratedNever();
+
             builder.Property(x => x.Flag).IsRequired();
 
             builder.OwnsOne(x => x.Number, x =>

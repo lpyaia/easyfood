@@ -1,11 +1,22 @@
 ﻿using Easyfood.Domain.Exceptions;
-using ValueOf;
 
 namespace Easyfood.Domain.ValueObjects
 {
-    public class CreditCardCVCCode : ValueOf<string, CreditCardCVCCode>
+    public class CreditCardCVCCode : ValueObject
     {
         public static readonly int LENGTH = 3;
+
+        public string Value { get; init; }
+
+        public CreditCardCVCCode(string value)
+        {
+            Value = value;
+            Validate();
+        }
+
+        private CreditCardCVCCode()
+        {
+        }
 
         protected override void Validate()
         {
@@ -15,6 +26,11 @@ namespace Easyfood.Domain.ValueObjects
             {
                 throw new DomainException("Invalid Credit Card CVC Code.");
             }
+        }
+
+        protected override IEnumerable<object?> GetEqualityComponents()
+        {
+            yield return Value;
         }
     }
 }

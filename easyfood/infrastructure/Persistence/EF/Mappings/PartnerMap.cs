@@ -12,6 +12,8 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
         {
             builder.ToTable("Partner");
 
+            builder.Property(x => x.Id).ValueGeneratedNever();
+
             builder.HasKey(m => m.Id);
 
             builder.Property(m => m.CompanyCategory)

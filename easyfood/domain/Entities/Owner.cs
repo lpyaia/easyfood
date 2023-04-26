@@ -18,8 +18,8 @@ namespace Easyfood.Domain.Entities
 
         public Owner(string firstName, string lastName, Guid userId)
         {
-            FirstName = Name.From(firstName);
-            LastName = Name.From(lastName);
+            FirstName = new Name(firstName);
+            LastName = new Name(lastName);
             UserId = userId;
             Partners = new List<Partner>();
         }

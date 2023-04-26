@@ -1,4 +1,6 @@
-﻿using Easyfood.Domain.ValueObjects;
+﻿using Easyfood.Domain.Exceptions;
+using Easyfood.Domain.ValueObjects;
+using System.Text.RegularExpressions;
 
 namespace Easyfood.Domain.Entities
 {
@@ -26,17 +28,32 @@ namespace Easyfood.Domain.Entities
 
         public CreditCard(string number,
             string cvcCode,
-            DateTime expDate,
+            string expDate,
             string cardholderFirstName,
-            string cardholderLastName,
-            CreditCardFlag flag)
+            string cardholderLastName)
         {
-            Number = CreditCardNumber.From(number);
-            CVCCode = CreditCardCVCCode.From(cvcCode);
-            ExpDate = CreditCardExpDate.From(expDate);
-            CardholderFirstName = Name.From(cardholderFirstName);
-            CardholderLastName = Name.From(cardholderLastName);
-            Flag = flag;
+            Number = new CreditCardNumber(number);
+            CVCCode = new CreditCardCVCCode(cvcCode);
+            ExpDate = new CreditCardExpDate(expDate);
+            CardholderFirstName = new Name(cardholderFirstName);
+            CardholderLastName = new Name(cardholderLastName);
+            Flag = GetCreditCardFlag(number);
+        }
+
+        public CreditCardFlag GetCreditCardFlag(string cardNumber)
+        {
+            var visaRgx = new Regex("^4");
+            var masterRgx = new Regex("^5[1-5]");
+            var amexRgx = new Regex("^3[47]");
+
+            if (visaRgx.IsMatch(cardNumber))
+                return CreditCardFlag.Visa;
+            else if (masterRgx.IsMatch(cardNumber))
+                return CreditCardFlag.MasterCard;
+            else if (amexRgx.IsMatch(cardNumber))
+                return CreditCardFlag.AmericanExpress;
+
+            throw new DomainException("Invalid Credit Card Flag.");
         }
     }
 

@@ -10,6 +10,8 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
         {
             builder.ToTable("Review");
 
+            builder.Property(x => x.Id).ValueGeneratedNever();
+
             builder.HasOne(r => r.Partner)
                    .WithMany(p => p.Reviews)
                    .HasForeignKey(r => r.PartnerId);

@@ -9,6 +9,8 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
         public void Configure(EntityTypeBuilder<Menu> builder)
         {
             builder.ToTable("Menu");
+
+            builder.Property(x => x.Id).ValueGeneratedNever();
         }
     }
 }

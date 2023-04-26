@@ -12,12 +12,12 @@ namespace Easyfood.Infrastructure.IoC
         {
             if (configuration.GetValue<bool>("UseInMemoryDatabase"))
             {
-                services.AddDbContext<EasyfoodDbContext>(options =>
+                services.AddDbContext<IEasyfoodDbContext, EasyfoodDbContext>(options =>
                     options.UseInMemoryDatabase("PartnersDb"));
             }
             else
             {
-                services.AddDbContext<EasyfoodDbContext>(options =>
+                services.AddDbContext<IEasyfoodDbContext, EasyfoodDbContext>(options =>
                     options.UseSqlServer(
                         configuration.GetConnectionString("Default")!,
                         builder => builder.MigrationsAssembly(typeof(EasyfoodDbContext).Assembly.FullName)

@@ -11,19 +11,27 @@ namespace Easyfood.Domain.ValueObjects
 
         public Money(decimal value)
         {
-            if (value <= 0)
-            {
-                throw new DomainException("Price value should be greather than zero.");
-            }
-
             Value = value;
             Currency = Currency.Reais;
+            Validate();
+        }
+
+        private Money()
+        {
         }
 
         protected override IEnumerable<object?> GetEqualityComponents()
         {
             yield return Value;
             yield return Currency;
+        }
+
+        protected override void Validate()
+        {
+            if (Value <= 0)
+            {
+                throw new DomainException("Price value should be greather than zero.");
+            }
         }
     }
 }

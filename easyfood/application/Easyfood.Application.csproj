@@ -12,6 +12,7 @@
 		<Folder Include="Features\Partners\Commands\" />
 		<Folder Include="Exceptions\" />
 		<Folder Include="Mappings\" />
+		<Folder Include="Models\Customers\" />
 	</ItemGroup>
 
 	<ItemGroup>

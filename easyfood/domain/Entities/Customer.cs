@@ -1,4 +1,5 @@
 ﻿using Easyfood.Domain.Abstractions;
+using Easyfood.Domain.Exceptions;
 using Easyfood.Domain.ValueObjects;
 
 namespace Easyfood.Domain.Entities
@@ -35,11 +36,19 @@ namespace Easyfood.Domain.Entities
             DateTime birthDate)
         {
             Id = id;
-            FirstName = Name.From(firstName);
-            LastName = Name.From(lastName);
-            Email = Email.From(email);
-            UserName = UserName.From(userName);
+            FirstName = new Name(firstName);
+            LastName = new Name(lastName);
+            Email = new Email(email);
+            UserName = new UserName(userName);
             BirthDate = birthDate;
+        }
+
+        public void AddCreditCard(CreditCard creditCard)
+        {
+            if (CreditCards.Count > 3)
+                throw new DomainException("You should not be able to have more than 3 credit cards registered.");
+
+            _creditCards.Add(creditCard);
         }
     }
 }

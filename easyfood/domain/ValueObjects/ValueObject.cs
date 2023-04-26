@@ -4,6 +4,8 @@
     {
         protected abstract IEnumerable<object?> GetEqualityComponents();
 
+        protected abstract void Validate();
+
         public override bool Equals(object? obj)
         {
             if (obj == null)

@@ -1,10 +1,11 @@
-﻿using Easyfood.Domain.Entities;
+﻿using Easyfood.Application.Abstractions.Persistence;
+using Easyfood.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Easyfood.Infrastructure.Persistence.EF
 {
-    public class EasyfoodDbContext : DbContext
+    public class EasyfoodDbContext : DbContext, IEasyfoodDbContext
     {
         public EasyfoodDbContext(DbContextOptions<EasyfoodDbContext> options) : base(options)
         {
@@ -13,6 +14,15 @@ namespace Easyfood.Infrastructure.Persistence.EF
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            foreach (var et in modelBuilder.Model.GetEntityTypes())
+            {
+                if (et.ClrType.IsSubclassOf(typeof(BaseEntity)))
+                {
+                    et.FindProperty(nameof(BaseEntity.Id)).ValueGenerated = Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.Never;
+                }
+            }
+
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(EasyfoodDbContext).Assembly);
         }
     }

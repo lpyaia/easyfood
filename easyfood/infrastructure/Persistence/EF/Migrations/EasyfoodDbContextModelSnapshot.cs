@@ -25,7 +25,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
             modelBuilder.Entity("Easyfood.Domain.Entities.CreditCard", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -50,7 +49,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
             modelBuilder.Entity("Easyfood.Domain.Entities.Customer", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("BirthDate")
@@ -70,7 +68,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
             modelBuilder.Entity("Easyfood.Domain.Entities.Menu", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -87,7 +84,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
             modelBuilder.Entity("Easyfood.Domain.Entities.MenuItem", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -123,7 +119,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
             modelBuilder.Entity("Easyfood.Domain.Entities.Owner", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
@@ -143,7 +138,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
             modelBuilder.Entity("Easyfood.Domain.Entities.Partner", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("CompanyCategory")
@@ -194,7 +188,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
             modelBuilder.Entity("Easyfood.Domain.Entities.Review", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")

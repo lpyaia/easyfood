@@ -1,42 +1,57 @@
 ﻿using Easyfood.Domain.Exceptions;
-using ValueOf;
+using System.Text.RegularExpressions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Easyfood.Domain.ValueObjects
 {
-    public class CreditCardNumber : ValueOf<string, CreditCardNumber>
+    public class CreditCardNumber : ValueObject
     {
+        public string Value { get; init; }
+
+        public CreditCardNumber(string number)
+        {
+            Value = number;
+            Validate();
+        }
+
+        private CreditCardNumber()
+        {
+        }
+
         protected override void Validate()
         {
-            if (!long.TryParse(Value, out long cardNum))
+            string value = Value.Trim().Replace("-", "");
+
+            if (!long.TryParse(value, out long cardNum))
             {
                 throw new DomainException("Invalid Credit Card number.");
             }
 
-            int sum = 0;
-            bool alternate = false;
+            int[] digits = value.Replace(" ", "") // Remove any spaces in the number
+                                .Select(c => int.Parse(c.ToString())) // Convert each character to an integer
+                                .Reverse() // Reverse the digits to simplify the Luhn algorithm
+                                .ToArray();
 
-            for (int i = Value.Length - 1; i >= 0; i--)
-            {
-                int digit = (int)cardNum % 10;
-                cardNum /= 10;
+            int checksum = digits.Select((d, i) => i % 2 == 0 ? d : (d * 2) % 10 + (d * 2) / 10) // Double every other digit starting from the second-to-last
+                                 .Sum(); // Add up all the digits
 
-                if (alternate)
-                {
-                    digit *= 2;
+            var visaRgx = new Regex("^4");
+            var masterRgx = new Regex("^5[1-5]");
+            var amexRgx = new Regex("^3[47]");
 
-                    if (digit > 9)
-                    {
-                        digit -= 9;
-                    }
-                }
-
-                sum += digit;
-                alternate = !alternate;
-            }
-
-            bool isValid = sum % 10 == 0;
+            bool isValid = checksum % 10 == 0 &&
+                           (
+                               visaRgx.Match(value).Success ||
+                               masterRgx.Match(value).Success ||
+                               amexRgx.Match(value).Success
+                           );
 
             if (!isValid) throw new DomainException("Invalid Credit Card number.");
+        }
+
+        protected override IEnumerable<object?> GetEqualityComponents()
+        {
+            yield return Value;
         }
     }
 }

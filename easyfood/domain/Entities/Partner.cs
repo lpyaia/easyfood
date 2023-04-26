@@ -57,7 +57,7 @@ namespace Easyfood.Domain.Entities
             Tags = new List<Tag>();
             Reviews = new List<Review>();
             OwnerId = ownerId;
-            Score = Score.From(score);
+            Score = new Score(score);
             IsActive = true;
         }
 
