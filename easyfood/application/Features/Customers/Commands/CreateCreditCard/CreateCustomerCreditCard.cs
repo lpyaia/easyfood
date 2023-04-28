@@ -85,7 +85,7 @@ namespace Easyfood.Application.Features.Customers.Commands.CreateCreditCard
                 request.CardholderFirstName,
                 request.CardholderLastName);
 
-            customer.AddCreditCard(creditCard);
+            customer.RegisterCreditCard(creditCard);
 
             await _unitOfWork.SaveChangesAsync();
 

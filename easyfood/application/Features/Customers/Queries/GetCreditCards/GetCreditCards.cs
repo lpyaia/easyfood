@@ -26,7 +26,7 @@ namespace Easyfood.Application.Features.Customers.Queries.GetCreditCards
                                             .AsNoTracking()
                                             .ToListAsync(cancellationToken);
 
-            var data = creditCards.Select(cc => new GetCreditCardDto(cc.Id, cc.Number.Value, cc.Flag))
+            var data = creditCards.Select(cc => new GetCreditCardDto(cc.Id, cc.DisplayNumber, cc.Flag))
                                   .ToList();
 
             return new ResponseData<IList<GetCreditCardDto>>(data);

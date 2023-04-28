@@ -22,6 +22,8 @@ namespace Easyfood.Domain.Entities
 
         public Customer Customer { get; private set; } = default!;
 
+        public string DisplayNumber => string.Concat(Number.Value[0..^4].Select(x => x == '-' ? x : '*')) + Number.Value[^4..];
+
         private CreditCard()
         {
         }

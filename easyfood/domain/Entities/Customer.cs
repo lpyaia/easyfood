@@ -43,12 +43,22 @@ namespace Easyfood.Domain.Entities
             BirthDate = birthDate;
         }
 
-        public void AddCreditCard(CreditCard creditCard)
+        public void RegisterCreditCard(CreditCard creditCard)
         {
-            if (CreditCards.Count > 3)
+            if (_creditCards.Count == 3)
                 throw new DomainException("You should not be able to have more than 3 credit cards registered.");
 
             _creditCards.Add(creditCard);
+        }
+
+        public void UnregisterCreditCard(Guid creditCardId)
+        {
+            var creditCard = _creditCards.FirstOrDefault(x => x.Id == creditCardId);
+
+            if (creditCard == null)
+                throw new DomainException("Credit Card not found.");
+
+            _creditCards.Remove(creditCard);
         }
     }
 }

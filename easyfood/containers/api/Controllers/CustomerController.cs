@@ -1,6 +1,7 @@
 ﻿using Easyfood.Api.Attributes;
 using Easyfood.Application.Features.Customers.Commands.CreateCreditCard;
 using Easyfood.Application.Features.Customers.Commands.CreateNewCustomer;
+using Easyfood.Application.Features.Customers.Commands.DeleteCreditCard;
 using Easyfood.Application.Features.Customers.Queries.GetCreditCards;
 using Easyfood.Shared.Authorization.Attributes;
 using MediatR;
@@ -57,6 +58,14 @@ namespace Easyfood.Api.Controllers
                 body.CVCCode), cancellationToken);
 
             return Created("/checkout", null);
+        }
+
+        [HttpDelete("/api/customers/{id}/credit-cards/{creditCardId}")]
+        public async Task<IActionResult> DeleteCreditCard([FromRoute] Guid id, [FromRoute] Guid creditCardId, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(new DeleteCreditCardCommand(id, creditCardId), cancellationToken);
+
+            return Ok();
         }
     }
 }
