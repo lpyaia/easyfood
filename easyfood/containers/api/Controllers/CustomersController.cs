@@ -11,11 +11,11 @@ namespace Easyfood.Api.Controllers
 {
     [Route("api/customers")]
     [ApiController]
-    public class CustomerController : ControllerBase
+    public class CustomersController : ControllerBase
     {
         private readonly IMediator _mediator;
 
-        public CustomerController(IMediator mediator)
+        public CustomersController(IMediator mediator)
         {
             _mediator = mediator;
         }

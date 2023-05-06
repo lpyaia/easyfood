@@ -1,6 +1,6 @@
 ﻿using Easyfood.Domain.ValueObjects;
 
-namespace Easyfood.Domain.Entities
+namespace Easyfood.Domain.Entities.Partners
 {
     public class MenuItem : BaseEntity
     {
@@ -12,18 +12,21 @@ namespace Easyfood.Domain.Entities
 
         public Money Price { get; private set; }
 
-        public Menu? Menu { get; private set; }
+        public Guid MenuId { get; private set; }
+
+        public Menu Menu { get; private set; }
 
         private MenuItem()
         {
         }
 
-        public MenuItem(string itemName, string description, string image, Money price)
+        public MenuItem(string itemName, string description, string image, Money price, Guid menuId)
         {
             ItemName = itemName;
             Description = description;
             Image = image;
             Price = price;
+            MenuId = menuId;
         }
     }
 }

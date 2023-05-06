@@ -1,4 +1,4 @@
-﻿using Easyfood.Domain.Entities;
+﻿using Easyfood.Domain.Entities.Partners;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,7 +8,7 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
     {
         public void Configure(EntityTypeBuilder<MenuItem> builder)
         {
-            builder.ToTable("Item");
+            builder.ToTable("MenuItem");
 
             builder.Property(x => x.Id).ValueGeneratedNever();
 
@@ -25,6 +25,10 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
                 p.Property(m => m.Value).HasColumnName("Value").HasPrecision(18, 2);
                 p.Property(m => m.Currency).HasColumnName("Currency");
             });
+
+            builder.HasOne(mi => mi.Menu)
+                .WithMany(m => m.Items)
+                .HasForeignKey(mi => mi.MenuId);
         }
     }
 }

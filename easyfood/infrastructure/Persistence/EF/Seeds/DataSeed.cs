@@ -1,4 +1,6 @@
-﻿using Easyfood.Domain.Entities;
+﻿using Easyfood.Domain.Entities.Customers;
+using Easyfood.Domain.Entities.Owners;
+using Easyfood.Domain.Entities.Partners;
 using Easyfood.Domain.Enums;
 using Easyfood.Domain.ValueObjects;
 
@@ -28,13 +30,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
             #region Partner 1
 
             var owner1 = new Owner("Lucas", "Pyaia", Guid.NewGuid());
-            var menu1 = new Menu();
-
-            menu1.AddItem(new MenuItem("Leite", "Leite fresco.", "", new Money(5.50m)));
-            menu1.AddItem(new MenuItem("Margarina", "Margarina especial.", "", new Money(3.25m)));
-            menu1.AddItem(new MenuItem("Manteiga", "Manteiga de primeira qualidade.", "", new Money(10m)));
-            menu1.AddItem(new MenuItem("Chocolate quente", "Leite com achocolatado.", "", new Money(7.50m)));
-
             var address1 = new Address("Rua das Flores, 123", "Sorocaba", "SP", "18000-000", "Brasil", -23.519869, -47.464175);
             var partner1 = new Partner
             (
@@ -42,11 +37,17 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
                 "Padaria com produtos frescos.",
                 "/merchants/1",
                 CompanyType.Restaurant,
-                menu1.Id,
                 address1,
                 owner1.Id,
                 5m
             );
+
+            var menu1 = new Menu(partner1.Id);
+
+            menu1.AddItem(new MenuItem("Leite", "Leite fresco.", "./static-images/leite.jpg", new Money(5.50m), menu1.Id));
+            menu1.AddItem(new MenuItem("Margarina", "Margarina especial.", "./static-images/margarina.jpg", new Money(3.25m), menu1.Id));
+            menu1.AddItem(new MenuItem("Manteiga", "Manteiga de primeira qualidade.", "./static-images/manteiga.jpg", new Money(10m), menu1.Id));
+            menu1.AddItem(new MenuItem("Chocolate quente", "Leite com achocolatado.", "./static-images/leite-achocolatado.jpg", new Money(7.50m), menu1.Id));
 
             partner1.RegisterTag(Tag.Restaurant);
 
@@ -71,11 +72,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
             #region Partner 2
 
             var owner2 = new Owner("Bruce", "Wayne", Guid.NewGuid());
-            var menu2 = new Menu();
-
-            menu2.AddItem(new MenuItem("Temaki", "Unidade do Temaki.", "", new Money(23m)));
-            menu2.AddItem(new MenuItem("Sushi", "Porção de sushi.", "", new Money(35m)));
-
             var address2 = new Address("Rua Sete de Setembro, 210", "Sorocaba", "SP", "18000-010", "Brasil", -23.503448, -47.466241);
             var partner2 = new Partner
             (
@@ -83,7 +79,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
                 "Restaurante especializado em comida japonesa.",
                 "/merchants/2",
                 CompanyType.Restaurant,
-                menu2.Id,
                 address2,
                 owner2.Id,
                 4.3m
@@ -92,6 +87,11 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
             partner2.RegisterTag(Tag.Restaurant);
             partner2.RegisterTag(Tag.Japanese);
             partner2.RegisterTag(Tag.Chinese);
+
+            var menu2 = new Menu(partner2.Id);
+
+            menu2.AddItem(new MenuItem("Temaki", "Unidade do Temaki.", "./static-images/temaki.jpg", new Money(23m), menu2.Id));
+            menu2.AddItem(new MenuItem("Sushi", "Porção de sushi.", "./static-images/sushi.jpg", new Money(35m), menu2.Id));
 
             var reviewMerchant21 = new Review(partner2.Id, "Restaurante muito legal.", 3m, customer1.Id);
             var reviewMerchant22 = new Review(partner2.Id, "Restaurante lamentável.", 1m, customer1.Id);
@@ -113,12 +113,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
             #region Partner 3
 
             var owner3 = new Owner("Mary", "Jane", Guid.NewGuid());
-            var menu3 = new Menu();
-
-            menu3.AddItem(new MenuItem("Pizza 8 pedaços", "Sabores variados.", "", new Money(55m)));
-            menu3.AddItem(new MenuItem("Pizza 12 pedaços", "Sabores variados.", "", new Money(75m)));
-            menu3.AddItem(new MenuItem("Pizza 6 pedaços", "Sabores variados.", "", new Money(45m)));
-
             var address3 = new Address("Rua Abraham Lincoln, 700", "Sorocaba", "SP", "18000-020", "Brasil", -23.481222, -47.420883);
             var partner3 = new Partner
             (
@@ -126,7 +120,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
                 "As melhores pizzarias da região.",
                 "/merchants/4",
                 CompanyType.Restaurant,
-                menu3.Id,
                 address3,
                 owner3.Id,
                 3.9m
@@ -134,6 +127,12 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
 
             partner3.RegisterTag(Tag.Restaurant);
             partner3.RegisterTag(Tag.Pizza);
+
+            var menu3 = new Menu(partner3.Id);
+
+            menu3.AddItem(new MenuItem("Pizza Portuguesa", "Molho de tomate, mussarela, presunto, cebola, palmito, ervilha, ovo cozido, azeitona", "./static-images/pizza-portuguesa.jpg", new Money(55m), menu3.Id));
+            menu3.AddItem(new MenuItem("Pizza Frango Catupiry", "Molho de tomate, frango desfiado, catupiry", "./static-images/pizza-frango-catupiry.jpg", new Money(75m), menu3.Id));
+            menu3.AddItem(new MenuItem("Pizza Calebresa", "Molho de tomate, calabresa, cebola, mussarela", "./static-images/pizza-calabresa.jpg", new Money(45m), menu3.Id));
 
             var reviewMerchant31 = new Review(partner3.Id, "Pizzaria incrível.", 5m, customer1.Id);
             var reviewMerchant32 = new Review(partner3.Id, "Lamentável.", 1m, customer1.Id);
@@ -153,12 +152,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
             #region Partner 4
 
             var owner4 = new Owner("Rocky", "Balboa", Guid.NewGuid());
-            var menu4 = new Menu();
-
-            menu4.AddItem(new MenuItem("Anti-inflamatório", "Remédio Genérico.", "", new Money(10m)));
-            menu4.AddItem(new MenuItem("Aspirina", "2 unidades.", "", new Money(15m)));
-            menu4.AddItem(new MenuItem("Xarope", "250ml.", "", new Money(30m)));
-
             var address4 = new Address("Rua Central, 50", "Sorocaba", "SP", "18000-030", "Brasil", -23.458141, -47.484642);
             var partner4 = new Partner
             (
@@ -166,13 +159,17 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
                 "Remédios com desconto.",
                 "/merchants/5",
                 CompanyType.Pharmacy,
-                menu4.Id,
                 address4,
                 owner4.Id,
                 4.7m
             );
 
             partner4.RegisterTag(Tag.Pharmacy);
+            var menu4 = new Menu(partner4.Id);
+
+            menu4.AddItem(new MenuItem("Anti-inflamatório", "Remédio Genérico.", "./static-images/ibuprofeno.jpg", new Money(10m), menu4.Id));
+            menu4.AddItem(new MenuItem("Aspirina", "2 unidades.", "./static-images/aspirina.jpg", new Money(15m), menu4.Id));
+            menu4.AddItem(new MenuItem("Xarope", "250ml.", "./static-images/xarope.jpg", new Money(30m), menu4.Id));
 
             context.Set<Owner>().Add(owner4);
             context.Set<Menu>().Add(menu4);
@@ -183,13 +180,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
             #region Partner 5
 
             var owner5 = new Owner("Raul", "Seixas", Guid.NewGuid());
-            var menu5 = new Menu();
-
-            menu5.AddItem(new MenuItem("Arroz", "5kg.", "", new Money(23m)));
-            menu5.AddItem(new MenuItem("Feijão", "1kg.", "", new Money(10m)));
-            menu5.AddItem(new MenuItem("Refrigerante", "Refrigerante gelado 2 Litros.", "", new Money(8m)));
-            menu5.AddItem(new MenuItem("Nescau", "1kg.", "", new Money(15.50m)));
-
             var address5 = new Address("Rua do Futebol, 510", "Sorocaba", "SP", "18000-040", "Brasil", -23.534306, -47.465246);
             var partner5 = new Partner
             (
@@ -197,13 +187,19 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
                 "Super precinho.",
                 "/merchants/6",
                 CompanyType.Market,
-                menu5.Id,
                 address5,
                 owner5.Id,
                 2.0m
             );
 
             partner5.RegisterTag(Tag.Market);
+
+            var menu5 = new Menu(partner5.Id);
+
+            menu5.AddItem(new MenuItem("Arroz", "5kg.", "./static-images/arroz.jpg", new Money(23m), menu5.Id));
+            menu5.AddItem(new MenuItem("Feijão", "1kg.", "./static-images/feijao.jpg", new Money(10m), menu5.Id));
+            menu5.AddItem(new MenuItem("Refrigerante", "Refrigerante gelado 2 Litros.", "./static-images/refrigerante.jpg", new Money(8m), menu5.Id));
+            menu5.AddItem(new MenuItem("Nescau", "1kg.", "./static-images/nescau.jpg", new Money(15.50m), menu5.Id));
 
             var reviewMerchant51 = new Review(partner5.Id, "Tudo caro.", 5m, customer1.Id);
 
@@ -219,12 +215,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
             #region Partner 6
 
             var owner6 = new Owner("Raul", "Seixas", Guid.NewGuid());
-            var menu6 = new Menu();
-
-            menu6.AddItem(new MenuItem("Macarrão à Bolonhesa", "Delícioso Macarrão.", "", new Money(30m)));
-            menu6.AddItem(new MenuItem("Lasanha à Bolonhesa", "Deliciosa Lasanha.", "", new Money(45m)));
-            menu6.AddItem(new MenuItem("Parmegiana", "Pargemiana de Filé Mignon com Arroz e Batatas fritas.", "", new Money(60m)));
-
             var address6 = new Address("Rua do Graças, 11", "Sorocaba", "SP", "18000-050", "Brasil", -23.505549, -47.513748);
             var partner6 = new Partner
             (
@@ -232,17 +222,22 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
                 "Culinária italiana.",
                 "/merchants/7",
                 CompanyType.Restaurant,
-                menu6.Id,
                 address6,
                 owner6.Id,
                 5.0m
             );
 
-            var reviewMerchant61 = new Review(partner3.Id, "Incrível.", 5m, customer1.Id);
-            var reviewMerchant62 = new Review(partner3.Id, "Lamentável.", 1m, customer1.Id);
-
             partner6.RegisterTag(Tag.Italian);
             partner6.RegisterTag(Tag.Restaurant);
+
+            var menu6 = new Menu(partner6.Id);
+
+            menu6.AddItem(new MenuItem("Macarrão à Bolonhesa", "Delícioso Macarrão.", "./static-images/macarrao-bolonhesa.jpg", new Money(30m), menu6.Id));
+            menu6.AddItem(new MenuItem("Lasanha à Bolonhesa", "Deliciosa Lasanha.", "./static-images/lasanha-bolonhesa.jpg", new Money(45m), menu6.Id));
+            menu6.AddItem(new MenuItem("Parmegiana", "Pargemiana de Filé Mignon com Arroz e Batatas fritas.", "./static-images/parmegiana.jpg", new Money(60m), menu6.Id));
+
+            var reviewMerchant61 = new Review(partner3.Id, "Incrível.", 5m, customer1.Id);
+            var reviewMerchant62 = new Review(partner3.Id, "Lamentável.", 1m, customer1.Id);
 
             context.Set<Owner>().Add(owner6);
             context.Set<Menu>().Add(menu6);

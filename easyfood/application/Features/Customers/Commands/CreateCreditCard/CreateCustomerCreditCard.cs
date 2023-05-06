@@ -1,6 +1,6 @@
 ﻿using Easyfood.Application.Abstractions.Persistence;
 using Easyfood.Domain.Abstractions.Repositories;
-using Easyfood.Domain.Entities;
+using Easyfood.Domain.Entities.Customers;
 using Easyfood.Domain.Exceptions;
 using Easyfood.Domain.ValueObjects;
 using FluentValidation;
@@ -87,7 +87,7 @@ namespace Easyfood.Application.Features.Customers.Commands.CreateCreditCard
 
             customer.RegisterCreditCard(creditCard);
 
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }

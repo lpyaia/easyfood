@@ -1,8 +1,9 @@
 ﻿using Easyfood.Domain.Abstractions;
+using Easyfood.Domain.Entities.Orders;
 using Easyfood.Domain.Exceptions;
 using Easyfood.Domain.ValueObjects;
 
-namespace Easyfood.Domain.Entities
+namespace Easyfood.Domain.Entities.Customers
 {
     public class Customer : BaseEntity, IAggregateRoot
     {
@@ -16,13 +17,14 @@ namespace Easyfood.Domain.Entities
 
         public DateTime BirthDate { get; set; }
 
+        public IReadOnlyList<CreditCard> CreditCards => _creditCards;
         private readonly List<CreditCard> _creditCards = new();
 
-        public IReadOnlyList<CreditCard> CreditCards => _creditCards;
-
+        public IReadOnlyList<Review> Reviews => _reviews;
         private readonly List<Review> _reviews = new();
 
-        public IReadOnlyList<Review> Reviews => _reviews;
+        public IReadOnlyList<Order> Orders => _orders;
+        private readonly List<Order> _orders = new();
 
         private Customer()
         {
@@ -59,6 +61,11 @@ namespace Easyfood.Domain.Entities
                 throw new DomainException("Credit Card not found.");
 
             _creditCards.Remove(creditCard);
+        }
+
+        public bool HasCreditCard(Guid creditCardId)
+        {
+            return CreditCards.Any(x => x.Id == creditCardId);
         }
     }
 }

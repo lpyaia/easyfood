@@ -1,4 +1,4 @@
-﻿using Easyfood.Domain.Entities;
+﻿using Easyfood.Domain.Entities.Customers;
 
 namespace Easyfood.Domain.Abstractions.Repositories
 {

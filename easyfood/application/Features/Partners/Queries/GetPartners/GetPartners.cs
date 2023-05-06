@@ -4,10 +4,23 @@ using Easyfood.Domain.Abstractions.Repositories;
 using Easyfood.Shared.Common.Request;
 using Easyfood.Shared.Common.Response;
 using Easyfood.Shared.Common.User;
+using FluentValidation;
 using MediatR;
 
 namespace Easyfood.Application.Features.Partners.Queries.GetPartners
 {
+    public record GetPartnersQuery(int Page) : IRequest<PaginatedResponseData<PartnerDto[]>>;
+
+    public record PartnerDto(Guid Id, string CompanyName, string CompanyType, string PartnerLogo, decimal Score, DeliveryDto Delivery);
+
+    public class GetPartnersQueryValidator : AbstractValidator<GetPartnersQuery>
+    {
+        public GetPartnersQueryValidator()
+        {
+            RuleFor(x => x.Page).GreaterThanOrEqualTo(0);
+        }
+    }
+
     public class GetPartnersQueryHandler : IRequestHandler<GetPartnersQuery, PaginatedResponseData<PartnerDto[]>>
     {
         private readonly IPartnerRepository _repository;
@@ -39,8 +52,8 @@ namespace Easyfood.Application.Features.Partners.Queries.GetPartners
                     partner.CompanyName,
                     partner.CompanyCategory.ToString(),
                     partner.CompanyLogo,
-                    merchantDelivery,
-                    partner.Score.Value);
+                    partner.Score.Value,
+                    merchantDelivery);
             });
 
             PartnerDto[] merchantsDto = await Task.WhenAll(merchantsDtoTasks);

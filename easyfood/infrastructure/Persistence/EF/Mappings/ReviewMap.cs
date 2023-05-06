@@ -1,4 +1,4 @@
-﻿using Easyfood.Domain.Entities;
+﻿using Easyfood.Domain.Entities.Customers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

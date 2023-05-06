@@ -42,7 +42,7 @@ namespace Easyfood.Application.Features.Customers.Commands.DeleteCreditCard
 
             customer.UnregisterCreditCard(request.CreditCardId);
 
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }

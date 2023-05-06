@@ -1,8 +1,11 @@
 ﻿using Easyfood.Domain.Abstractions;
+using Easyfood.Domain.Entities.Customers;
+using Easyfood.Domain.Entities.Orders;
+using Easyfood.Domain.Entities.Owners;
 using Easyfood.Domain.Enums;
 using Easyfood.Domain.ValueObjects;
 
-namespace Easyfood.Domain.Entities
+namespace Easyfood.Domain.Entities.Partners
 {
     public class Partner : BaseEntity, IAggregateRoot
     {
@@ -20,8 +23,6 @@ namespace Easyfood.Domain.Entities
 
         public List<Tag> Tags { get; private set; }
 
-        public Guid MenuId { get; private set; }
-
         public Menu? Menu { get; private set; }
 
         public Address Address { get; private set; }
@@ -31,6 +32,9 @@ namespace Easyfood.Domain.Entities
         public Guid OwnerId { get; private set; }
 
         public Owner? Owner { get; private set; }
+
+        public IReadOnlyList<Order> Orders => _orders;
+        private readonly List<Order> _orders = new();
 
         private Partner()
         {
@@ -42,7 +46,6 @@ namespace Easyfood.Domain.Entities
             string companyDescription,
             string companyLogo,
             CompanyType companyCategory,
-            Guid menuId,
             Address address,
             Guid ownerId,
             decimal score
@@ -52,7 +55,6 @@ namespace Easyfood.Domain.Entities
             CompanyDescription = companyDescription;
             CompanyLogo = companyLogo;
             CompanyCategory = companyCategory;
-            MenuId = menuId;
             Address = address;
             Tags = new List<Tag>();
             Reviews = new List<Review>();

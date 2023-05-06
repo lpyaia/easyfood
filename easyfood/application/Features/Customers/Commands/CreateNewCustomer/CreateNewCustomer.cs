@@ -1,6 +1,6 @@
 ﻿using Easyfood.Application.Abstractions.Persistence;
 using Easyfood.Domain.Abstractions.Repositories;
-using Easyfood.Domain.Entities;
+using Easyfood.Domain.Entities.Customers;
 using FluentValidation;
 using MediatR;
 
@@ -42,7 +42,7 @@ namespace Easyfood.Application.Features.Customers.Commands.CreateNewCustomer
 
             _customerRepository.Insert(customer);
 
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;
         }

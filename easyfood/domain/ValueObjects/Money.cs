@@ -28,10 +28,14 @@ namespace Easyfood.Domain.ValueObjects
 
         protected override void Validate()
         {
-            if (Value <= 0)
+            if (Value < 0)
             {
-                throw new DomainException("Price value should be greather than zero.");
+                throw new DomainException("Money value shouldn't be less than zero.");
             }
         }
+
+        public static implicit operator decimal(Money money) => money.Value;
+
+        public static implicit operator Money(decimal value) => new Money(value);
     }
 }

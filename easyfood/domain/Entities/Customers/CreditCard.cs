@@ -2,7 +2,7 @@
 using Easyfood.Domain.ValueObjects;
 using System.Text.RegularExpressions;
 
-namespace Easyfood.Domain.Entities
+namespace Easyfood.Domain.Entities.Customers
 {
     public class CreditCard : BaseEntity
     {

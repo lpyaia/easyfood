@@ -1,5 +1,5 @@
 ﻿using Easyfood.Application.Abstractions.Persistence;
-using Easyfood.Domain.Entities;
+using Easyfood.Domain.Entities.Customers;
 using Easyfood.Shared.Common.Response;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

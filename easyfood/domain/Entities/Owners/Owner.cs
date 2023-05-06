@@ -1,6 +1,7 @@
-﻿using Easyfood.Domain.ValueObjects;
+﻿using Easyfood.Domain.Entities.Partners;
+using Easyfood.Domain.ValueObjects;
 
-namespace Easyfood.Domain.Entities
+namespace Easyfood.Domain.Entities.Owners
 {
     public class Owner : BaseEntity
     {

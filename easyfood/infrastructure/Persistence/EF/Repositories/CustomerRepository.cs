@@ -1,5 +1,5 @@
 ﻿using Easyfood.Domain.Abstractions.Repositories;
-using Easyfood.Domain.Entities;
+using Easyfood.Domain.Entities.Customers;
 
 namespace Easyfood.Infrastructure.Persistence.EF.Repositories
 {

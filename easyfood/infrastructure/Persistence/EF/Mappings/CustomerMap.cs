@@ -1,4 +1,4 @@
-﻿using Easyfood.Domain.Entities;
+﻿using Easyfood.Domain.Entities.Customers;
 using Easyfood.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -52,6 +52,10 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
 
             builder.Metadata
                    .FindNavigation(nameof(Customer.CreditCards))!
+                   .SetPropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.Metadata
+                   .FindNavigation(nameof(Customer.Orders))!
                    .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }

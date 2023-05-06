@@ -1,4 +1,4 @@
-﻿using Easyfood.Domain.Entities;
+﻿using Easyfood.Domain.Entities.Partners;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,6 +11,10 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
             builder.ToTable("Menu");
 
             builder.Property(x => x.Id).ValueGeneratedNever();
+
+            builder.HasOne(p => p.Partner)
+                .WithOne(p => p.Menu)
+                .HasForeignKey<Menu>(m => m.PartnerId);
         }
     }
 }

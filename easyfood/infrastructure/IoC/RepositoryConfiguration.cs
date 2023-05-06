@@ -11,6 +11,7 @@ namespace Easyfood.Infrastructure.IoC
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped<IPartnerRepository, PartnerRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
         }
     }
 }

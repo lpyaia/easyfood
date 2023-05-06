@@ -1,4 +1,4 @@
-﻿using Easyfood.Domain.Entities;
+﻿using Easyfood.Domain.Entities.Partners;
 using Easyfood.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -39,10 +39,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
                               .ToList())
                    .Metadata.SetValueComparer(tagsValueComparer);
 
-            builder.HasOne(m => m.Menu)
-                .WithMany()
-                .HasForeignKey(m => m.MenuId);
-
             builder.HasOne(m => m.Owner)
                    .WithMany(o => o.Partners)
                    .HasForeignKey(m => m.OwnerId);
@@ -68,6 +64,10 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
                  .HasPrecision(18, 2)
                  .IsRequired();
             });
+
+            builder.Metadata
+               .FindNavigation(nameof(Partner.Orders))!
+               .SetPropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }
