@@ -1,6 +1,7 @@
 ﻿using Easyfood.Application.Models.Partners;
 using Easyfood.Application.Services.Interfaces;
 using Easyfood.Domain.Abstractions.Repositories;
+using Easyfood.Domain.Enums;
 using Easyfood.Shared.Common.Request;
 using Easyfood.Shared.Common.Response;
 using Easyfood.Shared.Common.User;
@@ -9,7 +10,7 @@ using MediatR;
 
 namespace Easyfood.Application.Features.Partners.Queries.GetPartners
 {
-    public record GetPartnersQuery(int Page) : IRequest<PaginatedResponseData<PartnerDto[]>>;
+    public record GetPartnersQuery(int Page, CompanyType[]? CompanyType, string? Search) : IRequest<PaginatedResponseData<PartnerDto[]>>;
 
     public record PartnerDto(Guid Id, string CompanyName, string CompanyType, string PartnerLogo, decimal Score, DeliveryDto Delivery);
 
@@ -40,8 +41,15 @@ namespace Easyfood.Application.Features.Partners.Queries.GetPartners
 
         public async Task<PaginatedResponseData<PartnerDto[]>> Handle(GetPartnersQuery request, CancellationToken cancellationToken)
         {
-            var partners = await _repository.GetActiveParnersPaginatedAsync(request.Page, PaginationRequest.PageSize, cancellationToken);
-            var count = await _repository.GetActiveParnersCountAsync(cancellationToken);
+            var partners = await _repository.GetActiveParnersPaginatedAsync(request.Page,
+                PaginationRequest.PageSize,
+                request.Search,
+                request.CompanyType,
+                cancellationToken);
+
+            var count = await _repository.GetActiveParnersCountAsync(request.Search,
+                request.CompanyType,
+                cancellationToken);
 
             IEnumerable<Task<PartnerDto>> merchantsDtoTasks = partners.Select(async (partner) =>
             {
