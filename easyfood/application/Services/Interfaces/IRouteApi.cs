@@ -1,4 +1,4 @@
-﻿using Easyfood.Application.Models.Partners;
+﻿using Easyfood.Application.Features.Partners.Queries.GetPartners;
 using Easyfood.Domain.ValueObjects;
 
 namespace Easyfood.Application.Services.Interfaces

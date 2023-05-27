@@ -25,20 +25,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Mappings
             builder.Property(m => m.IsActive)
                    .IsRequired();
 
-            var tagsValueComparer = new ValueComparer<List<Tag>>(
-                (c1, c2) => c1 != null && c2 != null && c1.SequenceEqual(c2),
-                c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-                c => c);
-
-            builder.Property(m => m.Tags)
-                   .HasConversion(
-                        c => string.Join(',', c),
-                        c => c.Split(',', StringSplitOptions.RemoveEmptyEntries)
-                              .Select(s => Enum.Parse(typeof(Tag), s))
-                              .Cast<Tag>()
-                              .ToList())
-                   .Metadata.SetValueComparer(tagsValueComparer);
-
             builder.HasOne(m => m.Owner)
                    .WithMany(o => o.Partners)
                    .HasForeignKey(m => m.OwnerId);

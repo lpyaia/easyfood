@@ -18,7 +18,7 @@ namespace Easyfood.Shared.Common.Response
         {
             Data = data;
             TotalItems = totalItems;
-            TotalPages = (int)Math.Ceiling((decimal)(totalItems / PageSize));
+            TotalPages = (int)Math.Ceiling((decimal)totalItems / PageSize);
             CurrentPage = currentPage;
         }
     }

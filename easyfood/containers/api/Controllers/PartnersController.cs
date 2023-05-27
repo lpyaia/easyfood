@@ -1,6 +1,7 @@
 ﻿using Easyfood.Application.Features.Partners.Queries.GetMenu;
 using Easyfood.Application.Features.Partners.Queries.GetPartners;
 using Easyfood.Shared.Authorization.Attributes;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

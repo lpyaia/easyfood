@@ -1,4 +1,5 @@
-﻿using Easyfood.Shared.Common.Response;
+﻿using Easyfood.Domain.Exceptions;
+using Easyfood.Shared.Common.Response;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -41,7 +42,17 @@ namespace Easyfood.Shared.Common.ExceptionMiddleware
             {
                 case ValidationException v:
                     statusCode = HttpStatusCode.BadRequest;
-                    errors = string.Join(',', v.Errors?.Select(x => x?.ErrorMessage) ?? Enumerable.Empty<string>());
+
+                    errors = v.Errors.Any() ?
+                        string.Join(',', v.Errors.Select(x => x.ErrorMessage)) :
+                        v.Message;
+
+                    _logger.LogWarning($"[BAD REQUEST]: {errors} - [PATH]: {path} - [TRACE]: {traceId}");
+                    break;
+
+                case DomainException d:
+                    statusCode = HttpStatusCode.BadRequest;
+                    errors = d.Message;
                     _logger.LogWarning($"[BAD REQUEST]: {errors} - [PATH]: {path} - [TRACE]: {traceId}");
                     break;
 
@@ -57,7 +68,12 @@ namespace Easyfood.Shared.Common.ExceptionMiddleware
 
             var error = new ErrorResponse(statusCode.ToString(), errors, errors, path, traceId);
 
-            await context.Response.WriteAsync(JsonSerializer.Serialize(error));
+            await context.Response.WriteAsync(JsonSerializer.Serialize(
+                error, 
+                new JsonSerializerOptions 
+                { 
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase 
+                }));
         }
     }
 }

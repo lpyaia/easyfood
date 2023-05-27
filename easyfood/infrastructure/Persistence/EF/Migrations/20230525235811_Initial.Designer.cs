@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Easyfood.Infrastructure.Persistence.EF.Migrations
 {
     [DbContext(typeof(EasyfoodDbContext))]
-    [Migration("20230504000232_Initial")]
+    [Migration("20230525235811_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.CreditCard", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Customers.CreditCard", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -48,7 +48,7 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                     b.ToTable("CreditCard", (string)null);
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.Customer", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Customers.Customer", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -67,7 +67,118 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                     b.ToTable("Customer");
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.Menu", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Customers.Review", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Opinion")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<Guid>("PartnerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("PartnerId");
+
+                    b.ToTable("Review", (string)null);
+                });
+
+            modelBuilder.Entity("Easyfood.Domain.Entities.Orders.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("OrderNumber")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderNumber"), 1L, 1);
+
+                    b.Property<Guid>("PartnerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("PartnerId");
+
+                    b.ToTable("Order", (string)null);
+                });
+
+            modelBuilder.Entity("Easyfood.Domain.Entities.Orders.OrderItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItem", (string)null);
+                });
+
+            modelBuilder.Entity("Easyfood.Domain.Entities.Owners.Owner", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Owner", (string)null);
+                });
+
+            modelBuilder.Entity("Easyfood.Domain.Entities.Partners.Menu", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -89,7 +200,7 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                     b.ToTable("Menu", (string)null);
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.MenuItem", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Partners.MenuItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -124,87 +235,7 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                     b.ToTable("MenuItem", (string)null);
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.Order", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("OrderNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderNumber"), 1L, 1);
-
-                    b.Property<Guid>("PartnerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("PartnerId");
-
-                    b.ToTable("Order", (string)null);
-                });
-
-            modelBuilder.Entity("Easyfood.Domain.Entities.OrderItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderItem", (string)null);
-                });
-
-            modelBuilder.Entity("Easyfood.Domain.Entities.Owner", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Owner", (string)null);
-                });
-
-            modelBuilder.Entity("Easyfood.Domain.Entities.Partner", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Partners.Partner", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -238,10 +269,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                     b.Property<Guid>("OwnerId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Tags")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("OwnerId");
@@ -249,40 +276,46 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                     b.ToTable("Partner", (string)null);
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.Review", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Partners.Tag", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime?>("DeletedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Opinion")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<Guid>("PartnerId")
-                        .HasColumnType("uniqueidentifier");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("PartnerId");
-
-                    b.ToTable("Review", (string)null);
+                    b.ToTable("Tag");
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.CreditCard", b =>
+            modelBuilder.Entity("PartnerTag", b =>
                 {
-                    b.HasOne("Easyfood.Domain.Entities.Customer", "Customer")
+                    b.Property<Guid>("PartnersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TagsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("PartnersId", "TagsId");
+
+                    b.HasIndex("TagsId");
+
+                    b.ToTable("PartnerTag");
+                });
+
+            modelBuilder.Entity("Easyfood.Domain.Entities.Customers.CreditCard", b =>
+                {
+                    b.HasOne("Easyfood.Domain.Entities.Customers.Customer", "Customer")
                         .WithMany("CreditCards")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -398,7 +431,7 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.Customer", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Customers.Customer", b =>
                 {
                     b.OwnsOne("Easyfood.Domain.ValueObjects.Name", "FirstName", b1 =>
                         {
@@ -489,62 +522,55 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.Menu", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Customers.Review", b =>
                 {
-                    b.HasOne("Easyfood.Domain.Entities.Partner", "Partner")
-                        .WithOne("Menu")
-                        .HasForeignKey("Easyfood.Domain.Entities.Menu", "PartnerId")
+                    b.HasOne("Easyfood.Domain.Entities.Customers.Customer", "Customer")
+                        .WithMany("Reviews")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Partner");
-                });
-
-            modelBuilder.Entity("Easyfood.Domain.Entities.MenuItem", b =>
-                {
-                    b.HasOne("Easyfood.Domain.Entities.Menu", "Menu")
-                        .WithMany("Items")
-                        .HasForeignKey("MenuId")
+                    b.HasOne("Easyfood.Domain.Entities.Partners.Partner", "Partner")
+                        .WithMany("Reviews")
+                        .HasForeignKey("PartnerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Easyfood.Domain.ValueObjects.Money", "Price", b1 =>
+                    b.OwnsOne("Easyfood.Domain.ValueObjects.Score", "Rating", b1 =>
                         {
-                            b1.Property<Guid>("MenuItemId")
+                            b1.Property<Guid>("ReviewId")
                                 .HasColumnType("uniqueidentifier");
-
-                            b1.Property<int>("Currency")
-                                .HasColumnType("int")
-                                .HasColumnName("Currency");
 
                             b1.Property<decimal>("Value")
                                 .HasPrecision(18, 2)
                                 .HasColumnType("decimal(18,2)")
-                                .HasColumnName("Value");
+                                .HasColumnName("Rating");
 
-                            b1.HasKey("MenuItemId");
+                            b1.HasKey("ReviewId");
 
-                            b1.ToTable("MenuItem");
+                            b1.ToTable("Review");
 
                             b1.WithOwner()
-                                .HasForeignKey("MenuItemId");
+                                .HasForeignKey("ReviewId");
                         });
 
-                    b.Navigation("Menu");
+                    b.Navigation("Customer");
 
-                    b.Navigation("Price")
+                    b.Navigation("Partner");
+
+                    b.Navigation("Rating")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.Order", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Orders.Order", b =>
                 {
-                    b.HasOne("Easyfood.Domain.Entities.Customer", "Customer")
+                    b.HasOne("Easyfood.Domain.Entities.Customers.Customer", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Easyfood.Domain.Entities.Partner", "Partner")
+                    b.HasOne("Easyfood.Domain.Entities.Partners.Partner", "Partner")
                         .WithMany("Orders")
                         .HasForeignKey("PartnerId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -582,15 +608,15 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.OrderItem", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Orders.OrderItem", b =>
                 {
-                    b.HasOne("Easyfood.Domain.Entities.MenuItem", "Item")
+                    b.HasOne("Easyfood.Domain.Entities.Partners.MenuItem", "Item")
                         .WithMany()
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Easyfood.Domain.Entities.Order", "Order")
+                    b.HasOne("Easyfood.Domain.Entities.Orders.Order", "Order")
                         .WithMany("Items")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -653,7 +679,7 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.Owner", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Owners.Owner", b =>
                 {
                     b.OwnsOne("Easyfood.Domain.ValueObjects.Name", "FirstName", b1 =>
                         {
@@ -700,9 +726,56 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.Partner", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Partners.Menu", b =>
                 {
-                    b.HasOne("Easyfood.Domain.Entities.Owner", "Owner")
+                    b.HasOne("Easyfood.Domain.Entities.Partners.Partner", "Partner")
+                        .WithOne("Menu")
+                        .HasForeignKey("Easyfood.Domain.Entities.Partners.Menu", "PartnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Partner");
+                });
+
+            modelBuilder.Entity("Easyfood.Domain.Entities.Partners.MenuItem", b =>
+                {
+                    b.HasOne("Easyfood.Domain.Entities.Partners.Menu", "Menu")
+                        .WithMany("Items")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Easyfood.Domain.ValueObjects.Money", "Price", b1 =>
+                        {
+                            b1.Property<Guid>("MenuItemId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<int>("Currency")
+                                .HasColumnType("int")
+                                .HasColumnName("Currency");
+
+                            b1.Property<decimal>("Value")
+                                .HasPrecision(18, 2)
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("Value");
+
+                            b1.HasKey("MenuItemId");
+
+                            b1.ToTable("MenuItem");
+
+                            b1.WithOwner()
+                                .HasForeignKey("MenuItemId");
+                        });
+
+                    b.Navigation("Menu");
+
+                    b.Navigation("Price")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Easyfood.Domain.Entities.Partners.Partner", b =>
+                {
+                    b.HasOne("Easyfood.Domain.Entities.Owners.Owner", "Owner")
                         .WithMany("Partners")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -804,47 +877,22 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.Review", b =>
+            modelBuilder.Entity("PartnerTag", b =>
                 {
-                    b.HasOne("Easyfood.Domain.Entities.Customer", "Customer")
-                        .WithMany("Reviews")
-                        .HasForeignKey("CustomerId")
+                    b.HasOne("Easyfood.Domain.Entities.Partners.Partner", null)
+                        .WithMany()
+                        .HasForeignKey("PartnersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Easyfood.Domain.Entities.Partner", "Partner")
-                        .WithMany("Reviews")
-                        .HasForeignKey("PartnerId")
+                    b.HasOne("Easyfood.Domain.Entities.Partners.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.OwnsOne("Easyfood.Domain.ValueObjects.Score", "Rating", b1 =>
-                        {
-                            b1.Property<Guid>("ReviewId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<decimal>("Value")
-                                .HasPrecision(18, 2)
-                                .HasColumnType("decimal(18,2)")
-                                .HasColumnName("Rating");
-
-                            b1.HasKey("ReviewId");
-
-                            b1.ToTable("Review");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ReviewId");
-                        });
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Partner");
-
-                    b.Navigation("Rating")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.Customer", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Customers.Customer", b =>
                 {
                     b.Navigation("CreditCards");
 
@@ -853,22 +901,22 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                     b.Navigation("Reviews");
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.Menu", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Orders.Order", b =>
                 {
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.Order", b =>
-                {
-                    b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("Easyfood.Domain.Entities.Owner", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Owners.Owner", b =>
                 {
                     b.Navigation("Partners");
                 });
 
-            modelBuilder.Entity("Easyfood.Domain.Entities.Partner", b =>
+            modelBuilder.Entity("Easyfood.Domain.Entities.Partners.Menu", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("Easyfood.Domain.Entities.Partners.Partner", b =>
                 {
                     b.Navigation("Menu");
 

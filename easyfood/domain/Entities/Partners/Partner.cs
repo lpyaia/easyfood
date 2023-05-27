@@ -21,8 +21,6 @@ namespace Easyfood.Domain.Entities.Partners
 
         public Score Score { get; set; }
 
-        public List<Tag> Tags { get; private set; }
-
         public Menu? Menu { get; private set; }
 
         public Address Address { get; private set; }
@@ -35,6 +33,8 @@ namespace Easyfood.Domain.Entities.Partners
 
         public IReadOnlyList<Order> Orders => _orders;
         private readonly List<Order> _orders = new();
+
+        public List<Tag> Tags { get; private set; } = new();
 
         private Partner()
         {
@@ -56,7 +56,6 @@ namespace Easyfood.Domain.Entities.Partners
             CompanyLogo = companyLogo;
             CompanyCategory = companyCategory;
             Address = address;
-            Tags = new List<Tag>();
             Reviews = new List<Review>();
             OwnerId = ownerId;
             Score = new Score(score);

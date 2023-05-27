@@ -13,6 +13,32 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
             if (context.Set<Partner>().Any())
                 return;
 
+            #region Tags
+
+            var chineseTag = new Tag("Chinese");
+            var brazilianTag = new Tag("Brazilian");
+            var mexicanTag = new Tag("Mexican");
+            var italianTag = new Tag("Italian");
+            var japaneseTag = new Tag("Japanese");
+            var pizzaTag = new Tag("Pizza");
+            var burgerTag = new Tag("Burger");
+            var healthyTag = new Tag("Healthy");
+            var beerTag = new Tag("Beer");
+            var fastFoodTag = new Tag("Fast Food");
+
+            context.Set<Tag>().AddRange(chineseTag,
+                brazilianTag,
+                mexicanTag,
+                italianTag,
+                japaneseTag,
+                pizzaTag,
+                burgerTag,
+                healthyTag,
+                beerTag,
+                fastFoodTag);
+
+            #endregion Tags
+
             #region Customers
 
             var customer1 = new Customer(
@@ -49,7 +75,7 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
             menu1.AddItem(new MenuItem("Manteiga", "Manteiga de primeira qualidade.", "./static-images/manteiga.jpg", new Money(10m), menu1.Id));
             menu1.AddItem(new MenuItem("Chocolate quente", "Leite com achocolatado.", "./static-images/leite-achocolatado.jpg", new Money(7.50m), menu1.Id));
 
-            partner1.RegisterTag(Tag.Restaurant);
+            partner1.RegisterTag(healthyTag);
 
             var reviewMerchant11 = new Review(partner1.Id, "Restaurante muito bom.", 5m, customer1.Id);
             var reviewMerchant12 = new Review(partner1.Id, "Restaurante muito ruim.", 1m, customer1.Id);
@@ -84,9 +110,9 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
                 4.3m
             );
 
-            partner2.RegisterTag(Tag.Restaurant);
-            partner2.RegisterTag(Tag.Japanese);
-            partner2.RegisterTag(Tag.Chinese);
+            partner2.RegisterTag(japaneseTag);
+            partner2.RegisterTag(chineseTag);
+            partner2.RegisterTag(healthyTag);
 
             var menu2 = new Menu(partner2.Id);
 
@@ -125,8 +151,9 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
                 3.9m
             );
 
-            partner3.RegisterTag(Tag.Restaurant);
-            partner3.RegisterTag(Tag.Pizza);
+            partner3.RegisterTag(pizzaTag);
+            partner3.RegisterTag(fastFoodTag);
+            partner3.RegisterTag(italianTag);
 
             var menu3 = new Menu(partner3.Id);
 
@@ -164,7 +191,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
                 4.7m
             );
 
-            partner4.RegisterTag(Tag.Pharmacy);
             var menu4 = new Menu(partner4.Id);
 
             menu4.AddItem(new MenuItem("Anti-inflamatório", "Remédio Genérico.", "./static-images/ibuprofeno.jpg", new Money(10m), menu4.Id));
@@ -191,8 +217,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
                 owner5.Id,
                 2.0m
             );
-
-            partner5.RegisterTag(Tag.Market);
 
             var menu5 = new Menu(partner5.Id);
 
@@ -227,8 +251,7 @@ namespace Easyfood.Infrastructure.Persistence.EF.Seeds
                 5.0m
             );
 
-            partner6.RegisterTag(Tag.Italian);
-            partner6.RegisterTag(Tag.Restaurant);
+            partner6.RegisterTag(italianTag);
 
             var menu6 = new Menu(partner6.Id);
 

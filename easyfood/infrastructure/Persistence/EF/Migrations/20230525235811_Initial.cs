@@ -44,6 +44,20 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tag",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tag", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CreditCard",
                 columns: table => new
                 {
@@ -80,7 +94,6 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                     CompanyCategory = table.Column<int>(type: "int", maxLength: 100, nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     Score = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Street = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     City = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     State = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -150,6 +163,30 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                         column: x => x.PartnerId,
                         principalTable: "Partner",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PartnerTag",
+                columns: table => new
+                {
+                    PartnersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TagsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PartnerTag", x => new { x.PartnersId, x.TagsId });
+                    table.ForeignKey(
+                        name: "FK_PartnerTag_Partner_PartnersId",
+                        column: x => x.PartnersId,
+                        principalTable: "Partner",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PartnerTag_Tag_TagsId",
+                        column: x => x.TagsId,
+                        principalTable: "Tag",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -279,6 +316,11 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                 column: "OwnerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_PartnerTag_TagsId",
+                table: "PartnerTag",
+                column: "TagsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Review_CustomerId",
                 table: "Review",
                 column: "CustomerId");
@@ -298,6 +340,9 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
                 name: "OrderItem");
 
             migrationBuilder.DropTable(
+                name: "PartnerTag");
+
+            migrationBuilder.DropTable(
                 name: "Review");
 
             migrationBuilder.DropTable(
@@ -305,6 +350,9 @@ namespace Easyfood.Infrastructure.Persistence.EF.Migrations
 
             migrationBuilder.DropTable(
                 name: "Order");
+
+            migrationBuilder.DropTable(
+                name: "Tag");
 
             migrationBuilder.DropTable(
                 name: "Menu");

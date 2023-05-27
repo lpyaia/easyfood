@@ -1,4 +1,4 @@
-﻿namespace Easyfood.Application.Models.Partners
+﻿namespace Easyfood.Application.Features.Partners.Queries.GetPartners
 {
     public class DeliveryDto
     {

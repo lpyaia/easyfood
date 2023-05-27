@@ -9,10 +9,12 @@ namespace Easyfood.Domain.Abstractions.Repositories
             int pageSize,
             string? search,
             CompanyType[]? companyTypes,
+            Guid[]? tagsId,
             CancellationToken cancellationToken);
 
         Task<int> GetActiveParnersCountAsync(string? search,
             CompanyType[]? companyTypes,
+            Guid[]? tagsId,
             CancellationToken cancellationToken);
     }
 }

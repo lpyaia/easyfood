@@ -1,4 +1,4 @@
-﻿using Easyfood.Application.Models.Partners;
+﻿using Easyfood.Application.Features.Partners.Queries.GetPartners;
 using Easyfood.Application.Services.Interfaces;
 using Easyfood.Domain.ValueObjects;
 using Microsoft.Extensions.Caching.Memory;
